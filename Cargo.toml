@@ -1,0 +1,34 @@
+[package]
+name = "romanssr"
+version = "0.1.0"
+edition = "2024"
+
+[package.metadata.leptos]
+output-name = "romanLink"
+site = "target/site"
+site-pkg-dir = "pkg"
+site-addr = "0.0.0.0:3000"
+assets-dir = "assets"
+
+[dependencies]
+
+leptos = { version = "0.8.15", features = ["csr","ssr"] }
+leptos_router = { version = "0.8.11" ,features=[]}
+
+fastrand = { version = "2.3.0" ,features=["js"]}
+
+anyhow = { version = "1.0.100" ,features=[]}
+regex = { version = "1.12.2" ,features=[]}
+
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = { version = "1.0.149" ,features=[]}
+wasm-bindgen = { version="0.2", features=[]}
+web-sys = { version="0.3", features=["HtmlCanvasElement","CanvasRenderingContext2d"]}
+
+# wasm32ではない場合(SSR時)はこちらも使用される
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+leptos_axum = "0.8.7"
+tokio = { version = "1", features = ["full"] }
+axum = "0.8.8"
+tower-http = { version = "0.6.8", features = ["cors"] }
+http = "1.4.0"

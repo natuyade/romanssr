@@ -1,0 +1,27 @@
+pub const NONS: [&str; 25] = [
+    "P2R!!!!!!!!!!!!!",
+    "イエスズメ",
+    "次は03/01がプレイオフです",
+    "シャーーーー！！！",
+    "じゃれぼんサイコー！",
+    "PASS",
+    "IXGY",
+    "すしまん開店！",
+    "池田大作ランド開園！",
+    "https://leptos.dev/",
+    "https://rust-lang.org/",
+    "なつおはゲームが上手い",
+    "GAY",
+    "プレイオス♂",
+    "Annihalation",
+    "この辺にぃ、旨いラーメン屋の屋台来てるらしいっすよ。",
+    "Давай!Давай!Давай!",
+    "Project roman",
+    "This is My first Project.",
+    "All illustrations are painted by natuyade.",
+    "ガタイで分析",
+    "Escape from Osaka",
+    "セブンはななチキよりも揚げ鶏の方が美味い",// gAku
+    "セブンのおかわりクーポンは無限に使える",// naos
+    "My identity was made with Minecraft.",
+];
