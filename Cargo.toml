@@ -3,8 +3,17 @@ name = "romanssr"
 version = "0.1.0"
 edition = "2024"
 
+# これがフロント用wasmバンドルを生成するために必須
+[lib]
+crate-type = ["cdylib"]
+
+[[bin]]
+name = "romanssr"
+path = "src/main.rs"
+required-features = ["ssr"]
+
 [package.metadata.leptos]
-output-name = "romanLink"
+output-name = "romanapp"
 site = "target/site"
 site-pkg-dir = "pkg"
 site-addr = "0.0.0.0:3000"
@@ -12,7 +21,7 @@ assets-dir = "assets"
 
 [dependencies]
 
-leptos = { version = "0.8.15", features = ["csr","ssr"] }
+leptos = { version = "0.8.15", features = ["csr", "hydrate","ssr"] }
 leptos_router = { version = "0.8.11" ,features=[]}
 
 fastrand = { version = "2.3.0" ,features=["js"]}
@@ -32,3 +41,8 @@ tokio = { version = "1", features = ["full"] }
 axum = "0.8.8"
 tower-http = { version = "0.6.8", features = ["cors"] }
 http = "1.4.0"
+
+[features]
+csr = ["leptos/csr"]
+ssr = ["leptos/ssr"]
+hydrate = ["leptos/hydrate"]

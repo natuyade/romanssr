@@ -8,6 +8,12 @@
     </head>
 
     <body>
-        <div id="main"></div>
+        <div id="leptos-root"></div>
+        
+        /*hydration呼び出し*/
+        <script type="module">
+          import init from './pkg/romanapp.js';
+          init().then(() => wasm_bindgen.hydrate());
+        </script>
     </body>
 </html>
