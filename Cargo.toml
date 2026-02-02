@@ -23,7 +23,7 @@ assets-dir = "assets"
 # ここで指定しないとcargo leptosでのbuildが上手くいかない
 bin-features = ["ssr"]
 lib-features = ["hydrate"]
-bin-target-triple = "x86_64-unknown-linux-gnu"
+bin-target-triple = "x86_64-pc-windows-msvc"
 
 [dependencies]
 leptos = { version = "0.8.15", default-features = false }

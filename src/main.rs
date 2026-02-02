@@ -10,7 +10,7 @@ async fn main() {
     use tokio::net::TcpListener;
     use tower_http::services::ServeDir;
     
-    use natestapp::app::App;
+    use romanssr::app::App;
     
     let conf = get_configuration(Some("Cargo.toml")).unwrap();
     let leptos_options = conf.leptos_options.clone();
@@ -36,8 +36,8 @@ async fn main() {
                                 />
                                 <script type="module">
                                     r#"
-                                    import init, { hydrate } from '/pkg/natestapp.js';
-                                    init('/pkg/natestapp.wasm').then(() => {
+                                    import init, { hydrate } from '/pkg/romanssr.js';
+                                    init('/pkg/romanssr.wasm').then(() => {
                                         console.log('WASM loaded, calling hydrate...');
                                         hydrate();
                                     });
