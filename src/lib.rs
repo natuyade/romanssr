@@ -1,19 +1,8 @@
-use wasm_bindgen::prelude::wasm_bindgen;
+pub mod app;
 
-mod app;
-use app::App;
-
-mod globalcss;
-mod p2r_menu;
-mod pre_date;
-mod homepage;
-mod nonsense;
-
-/// クライアントから呼ばれるエントリポイント
+// wasm/hydrate entry用
 #[cfg(feature = "hydrate")]
-#[wasm_bindgen]
+#[wasm_bindgen::prelude::wasm_bindgen]
 pub fn hydrate() {
-    web_sys::console::log_1(&"hydration started".into());
-    leptos::logging::log!("HYDRATE START");
-    leptos::mount::mount_to_body(App)
+    leptos::mount::hydrate_body(app::App);
 }

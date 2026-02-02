@@ -1,24 +1,17 @@
 use leptos::prelude::*;
 
-use crate::globalcss::global_style;
-use crate::homepage::HomePage;
-use crate::p2r_menu::p2r_menu;
-
-/* 
- * signalを.get()した際に依存関係が構築されるためその値が変わる度に更新されてしまう
- *  (本来は読み取るだけでなので更新される必要はない->警告が出る(or panic))
- * そこで.get_untracked()使いリアクティブ処理で依存関係がないので安全に値を読み取れる
- */
-#[allow(non_snake_case)]
+// ssrとcsr時でhtml展開後のコードが一致しない場合正しく読み込まれない
 #[component]
 pub fn App() -> impl IntoView {
-    view! {
-        <style>
-            { global_style() }
-        </style>
-        <main>
-            { p2r_menu() }
-            { HomePage }
-        </main>
+    use leptos::prelude::*;
+
+    let (count, set_count) = signal(0);
+    view! { 
+                        <h1>"Hello from Leptos"</h1>
+                        <button on:click=move |_| {
+                                    set_count.update(|c| *c += 1);
+                                }>
+                                    {move || count.get()}
+                                </button>
     }
 }

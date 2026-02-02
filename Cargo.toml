@@ -1,11 +1,13 @@
 [package]
 name = "romanssr"
 version = "0.1.0"
-edition = "2024"
+edition = "2021"
+
 
 # これがフロント用wasmバンドルを生成するために必須
 [lib]
-crate-type = ["cdylib"]
+name = "romanssr"
+crate-type = ["cdylib", "rlib"]
 
 [[bin]]
 name = "romanssr"
@@ -13,36 +15,43 @@ path = "src/main.rs"
 required-features = ["ssr"]
 
 [package.metadata.leptos]
-output-name = "romanapp"
+output-name = "romanssr"
 site = "target/site"
 site-pkg-dir = "pkg"
 site-addr = "0.0.0.0:3000"
 assets-dir = "assets"
+# ここで指定しないとcargo leptosでのbuildが上手くいかない
+bin-features = ["ssr"]
+lib-features = ["hydrate"]
+bin-target-triple = "x86_64-unknown-linux-gnu"
 
 [dependencies]
+leptos = { version = "0.8.15", default-features = false }
+leptos_router = { version = "0.8.11", default-features = false }
+leptos_axum = { version = "0.8", optional = true }
+wasm-bindgen = "0.2.95"
+web-sys = { version = "0.3", features = ["HtmlCanvasElement", "CanvasRenderingContext2d"] }
 
-leptos = { version = "0.8.15", features = ["csr", "hydrate","ssr"] }
-leptos_router = { version = "0.8.11" ,features=[]}
-
-fastrand = { version = "2.3.0" ,features=["js"]}
-
-anyhow = { version = "1.0.100" ,features=[]}
-regex = { version = "1.12.2" ,features=[]}
-
-serde = { version = "1.0.228", features = ["derive"] }
-serde_json = { version = "1.0.149" ,features=[]}
-wasm-bindgen = { version="0.2", features=[]}
-web-sys = { version="0.3", features=["HtmlCanvasElement","CanvasRenderingContext2d"]}
-
-# wasm32ではない場合(SSR時)はこちらも使用される
-[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-leptos_axum = "0.8.7"
-tokio = { version = "1", features = ["full"] }
-axum = "0.8.8"
-tower-http = { version = "0.6.8", features = ["cors"] }
-http = "1.4.0"
+# サーバーサイド専用の依存
+tokio = { version = "1", features = ["rt-multi-thread", "macros"], optional = true }
+axum = { version = "0.8.8", optional = true }
+tower = { version = "0.5", optional = true }
+tower-http = { version = "0.6.8", features = ["fs", "trace"], optional = true }
+http = { version = "1.4.0", optional = true }
 
 [features]
-csr = ["leptos/csr"]
-ssr = ["leptos/ssr"]
-hydrate = ["leptos/hydrate"]
+default = []
+csr = ["leptos/csr", "leptos/nightly", "leptos_router/nightly"]
+hydrate = ["leptos/hydrate", "leptos/nightly", "leptos_router/nightly"]
+ssr = [
+    "leptos/ssr",
+    "leptos/nightly",
+    "leptos_router/ssr",
+    "leptos_router/nightly",
+    "dep:leptos_axum",
+    "dep:axum",
+    "dep:tokio",
+    "dep:tower",
+    "dep:tower-http",
+    "dep:http",
+]
