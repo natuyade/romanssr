@@ -2,12 +2,9 @@
 #[cfg(feature = "ssr")]
 #[tokio::main]
 async fn main() {
-    use axum::Router;
     use leptos::config::get_configuration;
     use leptos::prelude::*;
-    use leptos_axum::{generate_route_list, LeptosRoutes, file_and_error_handler};
-    use std::net::SocketAddr;
-    use tokio::net::TcpListener;
+    use leptos_axum::{generate_route_list, LeptosRoutes};
     use tower_http::services::ServeDir;
     
     use romanssr::app::App;
@@ -16,7 +13,7 @@ async fn main() {
     let leptos_options = conf.leptos_options.clone();
     let routes = generate_route_list(App);
     
-    let app = Router::new()
+    let app = axum::Router::new()
         // leptosroutesで初期のssr配信設定. index等.
         .leptos_routes(&leptos_options, routes, {
                     let _leptos_options = leptos_options.clone();
@@ -60,8 +57,8 @@ async fn main() {
         .nest_service("/assets", ServeDir::new("/assets"))
         .with_state(conf.leptos_options);
 
-    let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
-    let listener = TcpListener::bind(addr).await.unwrap();
+    let addr = std::net::SocketAddr::from(([127, 0, 0, 1], 3000));
+    let listener = tokio::net::TcpListener::bind(addr).await.unwrap();
 
     axum::serve(listener, app.into_make_service())
         .await

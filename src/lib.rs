@@ -1,4 +1,6 @@
+// appはlib,mainでの共通componentなのでpub
 pub mod app;
+mod homepage;
 
 // wasm/hydrate entry用
 #[cfg(feature = "hydrate")]
